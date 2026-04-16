@@ -1,33 +1,35 @@
 import React, { useState } from 'react';
 import { 
-  LayoutDashboard, 
-  Rocket, 
-  Lightbulb, 
-  Settings2,
-  FileSearch
+  FileText, 
+  DollarSign, 
+  BarChart3,
+  ShieldCheck,
+  Search
 } from 'lucide-react';
 import { Header, Tabs } from './components/Layout/Header.jsx';
-import { Dashboard } from './components/Dashboard/Dashboard.jsx';
-import { Proposals } from './components/Proposals/Proposals.jsx';
-import { SystemChanges } from './components/SystemChanges/SystemChanges.jsx';
-import { StrategicSkills } from './components/StrategicSkills/StrategicSkills.jsx';
-import { PolicyGapAnalysis } from './components/PolicyGapAnalysis/PolicyGapAnalysis.jsx';
+import { SystemReform } from './components/SystemReform/SystemReform.jsx';
+import { CostIncentives } from './components/CostIncentives/CostIncentives.jsx';
+import { EfficiencyTruth } from './components/EfficiencyTruth/EfficiencyTruth.jsx';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('dashboard');
-  const [rd, setRd] = useState({ n: 10, salary: 50000, bonus: 30000 });
+  const [activeTab, setActiveTab] = useState('reform');
+  const [rd, setRd] = useState({ n: 10, salary: 50000 });
   const [qa, setQa] = useState({ n: 6, salary: 50000 });
-  const [bugs, setBugs] = useState({ s1: 8, s2: 35, s3: 44, s4: 15 });
-  const [dates, setDates] = useState({ expected: "2026-03-27", actual: new Date().toISOString().split('T')[0] });
+  const [bugs, setBugs] = useState({ s1: 11, s2: 39, s3: 45, s4: 19 });
+  
+  // 日期狀態：預設為使用者提供的日期
+  const [dates, setDates] = useState({ 
+    start: "2026-01-26", 
+    expected: "2026-03-27", 
+    actual: new Date().toISOString().split('T')[0] 
+  });
 
   const dailyCost = ((rd.salary / 30) * rd.n) + ((qa.salary / 30) * qa.n);
 
   const tabs = [
-    { id: 'dashboard', label: '成本現況監控', icon: LayoutDashboard },
-    { id: 'gap-analysis', label: '制度缺漏診斷', icon: FileSearch },
-    { id: 'strategic', label: '研發效能分析', icon: Rocket },
-    { id: 'proposals', label: '獎金優化提案', icon: Lightbulb },
-    { id: 'changes', label: '制度變革提議', icon: Settings2 }
+    { id: 'reform', label: '制度改革建議', icon: FileText },
+    { id: 'cost', label: '財務現況監控', icon: DollarSign },
+    { id: 'truth', label: '產能真相分析', icon: BarChart3 }
   ];
 
   return (
@@ -35,7 +37,7 @@ export default function App() {
       <div className="max-w-5xl mx-auto">
         <div className="bg-white border border-stone-200 shadow-sm overflow-hidden">
           <Header 
-            title="研發效能與成本管理分析報告" 
+            title="研發效能與制度影響分析報告" 
             subtitle="資深前端工程師團隊治理提案" 
           />
           
@@ -46,28 +48,23 @@ export default function App() {
           />
 
           <div className="min-h-[600px] bg-white">
-            {activeTab === 'dashboard' && (
-              <Dashboard 
+            {activeTab === 'reform' && (
+              <SystemReform />
+            )}
+            {activeTab === 'cost' && (
+              <CostIncentives 
                 state={{ rd, qa, bugs, dates }} 
-                handlers={{ setRd, setQa, setBugs, setDates }} 
+                handlers={{ setRd, setQa, setBugs, setDates }}
+                dailyCost={dailyCost}
               />
             )}
-            {activeTab === 'gap-analysis' && (
-              <PolicyGapAnalysis />
-            )}
-            {activeTab === 'strategic' && (
-              <StrategicSkills />
-            )}
-            {activeTab === 'proposals' && (
-              <Proposals dailyCost={dailyCost} />
-            )}
-            {activeTab === 'changes' && (
-              <SystemChanges />
+            {activeTab === 'truth' && (
+              <EfficiencyTruth dailyCost={dailyCost} />
             )}
           </div>
 
           <div className="bg-stone-50 border-t border-stone-100 p-8 text-center text-stone-400 text-[10px] font-bold tracking-[0.3em] uppercase">
-            © 2026 R&D Strategy Analysis • Built with React & Tailwind
+            © 2026 R&D Strategy Analysis • Staff Engineer Opinion
           </div>
         </div>
       </div>
