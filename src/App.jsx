@@ -19,7 +19,7 @@ export default function App() {
   
   // 日期狀態：預設為使用者提供的日期
   const [dates, setDates] = useState({ 
-    start: "2026-01-26", 
+    start: "2026-01-27", 
     expected: "2026-03-27", 
     actual: new Date().toISOString().split('T')[0] 
   });
